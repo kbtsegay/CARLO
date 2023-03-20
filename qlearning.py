@@ -11,7 +11,6 @@ class QLearningAgent:
         self.peds = peds
         self.sidewalks = sidewalks
         self.buildings = buildings
-        self.observation_radius = 50 # meters
         self.agent = agent
         self.observation_space = np.zeros((810, 110)) # 81 x 51 grid to 0.1 precision. ie. 75m in front, and 5m on all sides of car
         self.action_space = [("steer", -0.8), ("steer", -0.6), ("steer", -0.4), ("steer", -0.2), 
@@ -22,12 +21,6 @@ class QLearningAgent:
         self.epsilon = 0.8 # probability of random arm
         self.decay = 0.9
         self.learning_rate = 0.1
-    
-    def in_observation_space(self, entity: Entity):
-        if self.agent - 5 <= entity.x <= self.agent + 5 and self.agent - 5 <= entity.y <= self.agent + 75:
-            return True
-        else:
-            return False
 
     def update_observations(self):
         self.observation_space = np.zeros((1010, 510))
@@ -65,7 +58,19 @@ class QLearningAgent:
             if self.agent.collidesWith(sidewalk):
                 reward -= 100
         for car in self.cars:
-            if abs(car.x - self.agent.x) < 5 and 0 < car.y - self.agent.y
+            if abs(car.x - self.agent.x) < 5 and -5 < (car.y - self.agent.y) < 20:
+                reward -= 20
+        for ped in self.peds:
+            if abs(ped.x - self.agent.x) < 5 and -5 < (ped.y - self.agent.y) < 20:
+                reward -= 20
+        for building in self.buildings:
+            if abs(building.x - self.agent.x) < 5 and -5 < (building.y - self.agent.y) < 20:
+                reward -= 20
+        for sidewalk in self.sidewalks:
+            if abs(sidewalk.x - self.agent.x) < 5 and -5 < (sidewalk.y - self.agent.y) < 20:
+                reward -= 20
+        return reward
+    
      # update the Q matrix
     def update(self, s, a, r, s_prime):
         self.Q[s,a] = self.Q[s,a] + self.learning_rate * (r + self.discount_factor * max(self.Q[s_prime,:]) - self.Q[s,a])
