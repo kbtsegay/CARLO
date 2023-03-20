@@ -1,6 +1,5 @@
 import random
 import numpy as np
-from entities import Entity
 from agents import Car, Pedestrian, RectangleBuilding, Painting
 from world import World
 
@@ -17,7 +16,7 @@ class QLearningAgent:
                              ("steer", 0.0), ("steer", 0.2), ("steer", 0.4), ("steer", 0.6), ("steer", 0.8),
                              ("accelerate", 0), ("accelerate", 1), ("accelerate", 2), ("accelerate", 3)]
         self.discount_factor = 0.95
-        self.Q = np.zeros(self.num_states, len(self.action_space))
+        self.Q = np.zeros((self.observation_space.shape, len(self.action_space)))
         self.epsilon = 0.8 # probability of random arm
         self.decay = 0.9
         self.learning_rate = 0.1
@@ -40,7 +39,7 @@ class QLearningAgent:
             self.epsilon *= self.decay
             action = random.sample(self.action_space)
         else:
-            action = np.max(self.Q[self.observation_space,:])
+            action = np.argmax(self.Q[self.observation_space,:])
         return action
     
     def get_reward(self):
