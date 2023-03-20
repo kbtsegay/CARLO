@@ -218,22 +218,23 @@ def initialize_cars(w, n_cars=random.randint(0, 10)):
         cars.append(car)
         car_locs.append(loc)
     agent = initialize_agent(w, cars, car_locs)
-    cars.append(agent)
-    car_locs.append("bottom-right")
     return agent, cars, car_locs, stoplight
 
 def initialize_intersection(w: World):
     # sidewalks
-    w.add(Painting(Point(95, 25), Point(50, 50), 'gray80'))
-    w.add(Painting(Point(25, 25), Point(50, 50), 'gray80'))
-    w.add(Painting(Point(95, 95), Point(50, 50), 'gray80'))
-    w.add(Painting(Point(25, 95), Point(50, 50), 'gray80'))
-
+    sidewalks = [Painting(Point(95, 25), Point(50, 50), 'gray80'),
+                 Painting(Point(25, 25), Point(50, 50), 'gray80'),
+                 Painting(Point(95, 95), Point(50, 50), 'gray80'),
+                 Painting(Point(25, 95), Point(50, 50), 'gray80')]
+    for sidewalk in sidewalks:
+        w.add(sidewalks)
     # buildings
-    w.add(RectangleBuilding(Point(97.5, 97.5), Point(45, 45)))
-    w.add(RectangleBuilding(Point(22.5, 22.5), Point(45, 45)))
-    w.add(RectangleBuilding(Point(22.5, 97.5), Point(45, 45)))
-    w.add(RectangleBuilding(Point(97.5, 22.5), Point(45, 45)))
+    buildings = [RectangleBuilding(Point(97.5, 97.5), Point(45, 45)), 
+                 RectangleBuilding(Point(22.5, 22.5), Point(45, 45)),
+                 RectangleBuilding(Point(22.5, 97.5), Point(45, 45)),
+                 RectangleBuilding(Point(97.5, 22.5), Point(45, 45))]
+    for building in buildings:
+        w.add(building)
 
     # vertical dividers
     w.add(Painting(Point(59, 22), Point(1, 44), '#f7d133'))
@@ -255,6 +256,6 @@ def initialize_intersection(w: World):
         #vertical
         w.add(Painting(Point(47.5, 52 + (2 * i)), Point(4, 1), 'white'))
         w.add(Painting(Point(72.5, 52 + (2 * i)), Point(4, 1), 'white'))
-    return initialize_cars(w)
+    return initialize_cars(w), sidewalks, buildings
     
     
