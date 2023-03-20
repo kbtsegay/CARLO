@@ -1,4 +1,4 @@
-#**When the brakes fail!: Q-learning for autonomous-driving decision-making using CARLO simulator**
+# When the brakes fail!: Q-learning for autonomous-driving decision-making using CARLO simulator**
 
 # CARLO
 2D Driving Simulator
