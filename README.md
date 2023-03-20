@@ -1,4 +1,6 @@
-# When the brakes fail!: Q-learning for autonomous-driving decision-making using CARLO simulator**
+# When the brakes fail!: Q-learning for autonomous-driving decision-making using CARLO simulator
+Created an intersection using CARLO files in intialize_world.py
+
 
 # CARLO
 2D Driving Simulator
